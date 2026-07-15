@@ -19,24 +19,33 @@ repositories {
 }
 
 dependencies {
+    // Web
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
+    // Database & Migration (PostgreSQL)
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-flyway")
-    implementation("org.springframework.boot:spring-boot-starter-kafka")
-    implementation("org.springframework.boot:spring-boot-starter-security-oauth2-resource-server")
-    implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.flywaydb:flyway-database-postgresql")
     runtimeOnly("org.postgresql:postgresql")
-    testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-data-redis-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-flyway-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-kafka-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-security-oauth2-resource-server-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
+
+    // In-Memory Data Grid (Redis)
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
+    // Messaging (Kafka)
+    implementation("org.springframework.boot:spring-boot-starter-kafka")
+
+    // Security (OAuth2 Resource Server)
+    implementation("org.springframework.boot:spring-boot-starter-security-oauth2-resource-server")
+
+    // Internal Modules & gRPC
     implementation(project(":grpc-interface"))
     implementation("net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE")
 
-    tasks.withType<Test> {
-        useJUnitPlatform()
-    }
+    // Specific Tests
+    testImplementation("org.springframework.boot:spring-boot-starter-data-redis-test")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
