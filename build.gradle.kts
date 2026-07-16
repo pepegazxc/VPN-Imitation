@@ -52,9 +52,6 @@ configure(subprojects.filter { it.name != "grpc-interface" }) {
         implementation("io.jsonwebtoken:jjwt-api:0.12.5")
         runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
         runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.5")
-
-        // Подключаем наши grpc-контракты к каждому спринг-сервису
-        implementation(project(":grpc-interface"))
     }
 
     tasks.withType<Test> {

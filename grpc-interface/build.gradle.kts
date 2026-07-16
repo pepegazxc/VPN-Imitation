@@ -17,39 +17,32 @@ repositories {
     mavenCentral()
 }
 
+val grpcVersion = "1.62.2"
+val protobufVersion = "3.25.1"
+
+dependencies {
+    implementation("io.grpc:grpc-protobuf:$grpcVersion")
+    implementation("io.grpc:grpc-stub:$grpcVersion")
+
+    implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
+}
+
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:3.25.1"
+        artifact = "com.google.protobuf:protoc:$protobufVersion"
     }
     plugins {
         create("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.62.2"
+            artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
         }
     }
     generateProtoTasks {
         all().forEach { task ->
             task.plugins {
                 create("grpc") {
-                    option("jakarta_omit")
+                    option("jakarta_omit=false")
                 }
             }
         }
     }
-}
-
-sourceSets {
-    main {
-        java {
-            srcDirs(
-                "build/generated/source/proto/main/grpc",
-                "build/generated/source/proto/main/java"
-            )
-        }
-    }
-}
-
-dependencies {
-    implementation("io.grpc:grpc-protobuf:1.62.2")
-    implementation("io.grpc:grpc-stub:1.62.2")
-    implementation("javax.annotation:javax.annotation-api:1.3.2")
 }
