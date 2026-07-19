@@ -1,51 +1,64 @@
 plugins {
     java
-    id("org.springframework.boot") version "4.1.0"
-    id("io.spring.dependency-management") version "1.1.7"
+    id("org.springframework.boot") version "4.1.0" apply false
+    id("io.spring.dependency-management") version "1.1.7" apply false
 }
 
 group = "me.pepega"
 version = "0.0.1-SNAPSHOT"
-description = "core-service"
+description = "vpn-imitation"
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
+    enabled = false
+}
+tasks.withType<Jar> {
+    enabled = false
+}
+
+subprojects {
+    repositories {
+        mavenCentral()
     }
-}
 
-repositories {
-    mavenCentral()
-}
+    if (name != "grpc-interface") {
 
-dependencies {
-    // Web
-    implementation("org.springframework.boot:spring-boot-starter-web")
+        plugins.withId("org.springframework.boot") {
 
-    // Database & Migration (PostgreSQL)
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-flyway")
-    implementation("org.flywaydb:flyway-database-postgresql")
-    runtimeOnly("org.postgresql:postgresql")
+            plugins.withId("java") {
+                extensions.configure<JavaPluginExtension> {
+                    toolchain {
+                        languageVersion.set(JavaLanguageVersion.of(21))
+                    }
+                }
+            }
 
-    // In-Memory Data Grid (Redis)
-    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+            dependencies {
+                implementation("org.springframework.boot:spring-boot-starter")
 
-    // Messaging (Kafka)
-    implementation("org.springframework.boot:spring-boot-starter-kafka")
+                // Lombok
+                compileOnly("org.projectlombok:lombok")
+                annotationProcessor("org.projectlombok:lombok")
+                testAnnotationProcessor("org.projectlombok:lombok")
+                testCompileOnly("org.projectlombok:lombok")
 
-    // Security (OAuth2 Resource Server)
-    implementation("org.springframework.boot:spring-boot-starter-security-oauth2-resource-server")
+                // Tests
+                testImplementation("org.springframework.boot:spring-boot-starter-test")
+                testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+                testImplementation("org.awaitility:awaitility:4.2.1")
 
-    // Internal Modules & gRPC
-    implementation(project(":grpc-interface"))
-    implementation("net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE")
+                // Docker (теперь developmentOnly точно существует!)
+                "developmentOnly"("org.springframework.boot:spring-boot-docker-compose")
 
-    // Specific Tests
-    testImplementation("org.springframework.boot:spring-boot-starter-data-redis-test")
-    testImplementation("org.springframework.kafka:spring-kafka-test")
-}
+                // Security And JWT
+                implementation("org.springframework.boot:spring-boot-starter-security")
+                implementation("io.jsonwebtoken:jjwt-api:0.12.5")
+                runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+                runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.5")
+            }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+            tasks.withType<Test> {
+                useJUnitPlatform()
+            }
+        }
+    }
 }

@@ -1,42 +1,58 @@
 plugins {
     java
-    id("org.springframework.boot") version "4.1.0"
-    id("io.spring.dependency-management") version "1.1.7"
+    id("org.springframework.boot") version "4.1.0" apply false
+    id("io.spring.dependency-management") version "1.1.7" apply false
 }
 
 group = "me.pepega"
 version = "0.0.1-SNAPSHOT"
-description = "gateway"
+description = "vpn-imitation"
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
+    enabled = false
+}
+tasks.withType<Jar> {
+    enabled = false
+}
+
+subprojects {
+    repositories {
+        mavenCentral()
     }
-}
 
-repositories {
-    mavenCentral()
-}
+    if (name != "grpc-interface") {
 
-extra["springCloudVersion"] = "2025.1.2"
+        tasks.withType<JavaCompile> {
+            options.release.set(21)
+        }
 
-dependencies {
-    // Spring Cloud Gateway
-    implementation("org.springframework.cloud:spring-cloud-starter-gateway-server-webmvc")
+        dependencies {
+            // Базовый Spring
+            add("implementation", "org.springframework.boot:spring-boot-starter")
 
-    // Redis & Rate Limiting
-    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+            // Lombok
+            add("compileOnly", "org.projectlombok:lombok")
+            add("annotationProcessor", "org.projectlombok:lombok")
+            add("testAnnotationProcessor", "org.projectlombok:lombok")
+            add("testCompileOnly", "org.projectlombok:lombok")
 
-    // Tests (Specific)
-    testImplementation("org.springframework.boot:spring-boot-starter-data-redis-test")
-}
+            // Тесты
+            add("testImplementation", "org.springframework.boot:spring-boot-starter-test")
+            add("testRuntimeOnly", "org.junit.platform:junit-platform-launcher")
+            add("testImplementation", "org.awaitility:awaitility:4.2.1")
 
-dependencyManagement {
-    imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+            // Безопасность и JWT
+            add("implementation", "org.springframework.boot:spring-boot-starter-security")
+            "add"("io.jsonwebtoken:jjwt-api:0.12.5")?.let { add("implementation", it) }
+            add("runtimeOnly", "io.jsonwebtoken:jjwt-impl:0.12.6")
+            add("runtimeOnly", "io.jsonwebtoken:jjwt-jackson:0.12.5")
+
+            // Обход падения с Docker Compose: добавляем динамически через строковое имя конфигурации
+            add("developmentOnly", "org.springframework.boot:spring-boot-docker-compose")
+        }
+
+        tasks.withType<Test> {
+            useJUnitPlatform()
+        }
     }
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }
