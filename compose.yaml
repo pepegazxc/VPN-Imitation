@@ -5,10 +5,11 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: 1234
       POSTGRES_DB: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
     restart: always
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./init-db:/docker-entrypoint-initdb.d
+      - ./init-db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
 
@@ -126,9 +127,9 @@ services:
 
 volumes:
   pgdata:
-  redis:
+  redis_data:
   minio_data:
 
 networks:
   kafka_network:
-    - driver: bridge
+    driver: host
