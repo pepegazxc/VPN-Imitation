@@ -40,6 +40,7 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:0.12.5")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.5")
+    implementation("org.jasypt:jasypt:1.9.3")
 
     // GRPC & Contracts
     implementation(project(":grpc-interface"))
@@ -49,8 +50,7 @@ dependencies {
     implementation("io.minio:minio:8.5.7")
 
     // Mail
-    implementation("jakarta.mail:jakarta.mail-api:2.1.3")
-    implementation("org.eclipse.angus:jakarta.mail:2.0.3")
+    implementation("org.springframework.boot:spring-boot-starter-mail")
 
     // Tests
     testImplementation("org.springframework.boot:spring-boot-starter-test")
