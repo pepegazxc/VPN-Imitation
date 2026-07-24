@@ -27,6 +27,7 @@ spring:
     port: 587
     username: ${MAIL_GMAIL}
     password: ${MAIL_APP_PASSWORD}
+    default-encoding: UTF-8
     properties:
       mail:
         smtp:
@@ -42,13 +43,23 @@ spring:
     url: ${POSTGRES_REGISTRATION_DOCKER_URL:jdbc:postgresql://localhost:5432/registration_db}
     password: 1234
     username: user
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 20000
+      leak-detection-threshold: 300000
   jpa:
     hibernate:
       ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
+        jdbc:
+          batch_size: 20
+        order_updates: true
+        order_inserts: true
     show-sql: false
+    open-in-view: false
 
   data:
     redis:

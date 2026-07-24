@@ -1,6 +1,6 @@
 plugins {
     java
-    id("com.google.protobuf") version "0.9.4"
+    id("com.google.protobuf") version "0.9.5"
 }
 
 group = "me.pepega"
@@ -17,8 +17,8 @@ repositories {
     mavenCentral()
 }
 
-val grpcVersion = "1.62.2"
-val protobufVersion = "3.25.1"
+val grpcVersion = "1.82.1"
+val protobufVersion = "3.25.8"
 
 dependencies {
     implementation("io.grpc:grpc-protobuf:$grpcVersion")

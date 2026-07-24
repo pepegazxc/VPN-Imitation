@@ -33,18 +33,20 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-kafka")
 
     // Security & OAuth2
-    implementation("org.springframework.boot:spring-boot-starter-security-oauth2-authorization-server")
     implementation("org.springframework.boot:spring-boot-starter-security-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-security-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("io.jsonwebtoken:jjwt-api:0.12.5")
-    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.5")
     implementation("org.jasypt:jasypt:1.9.3")
 
     // GRPC & Contracts
     implementation(project(":grpc-interface"))
-    implementation("net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE")
+    implementation("org.springframework.grpc:spring-grpc-spring-boot-starter") {
+        exclude(group = "io.grpc", module = "grpc-netty")
+    }
+    implementation("io.grpc:grpc-netty-shaded")
 
     // AWS S3 & MinIO
     implementation("io.minio:minio:8.5.7")
@@ -64,7 +66,6 @@ dependencies {
 
     // Messaging & Security Tests
     testImplementation("org.springframework.boot:spring-boot-starter-kafka-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-security-oauth2-authorization-server-test")
     testImplementation("org.springframework.boot:spring-boot-starter-security-oauth2-client-test")
     testImplementation("org.springframework.boot:spring-boot-starter-security-oauth2-resource-server-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
