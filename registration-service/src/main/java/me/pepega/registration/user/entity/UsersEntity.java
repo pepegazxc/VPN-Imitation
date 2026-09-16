@@ -39,4 +39,9 @@ public class UsersEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "auth_provider", nullable = false, length = 20)
     private AuthProvider authProvider = AuthProvider.LOCAL;
+
+    /*
+    TO DO : ADD PROVIDER_ID COLUMN
+     */
+
 }
