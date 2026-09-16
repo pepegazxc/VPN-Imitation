@@ -78,6 +78,14 @@ spring:
 jasypt:
   encryptor:
     password: ${JASYPT_KEY}
+    provider-name: SunJCE
+    algorithm: ${JASYPT_ALGORITHM}
+    key-obtention-iterations: 1000
+    pool-size: 1
+    string-output-type: base64
+    iv-generator-classname: org.jasypt.iv.RandomIvGenerator
+    salt-generator-classname: org.jasypt.salt.RandomSaltGenerator
+
 
 minio:
   url: ${MINIO_DOCKER_URL}
