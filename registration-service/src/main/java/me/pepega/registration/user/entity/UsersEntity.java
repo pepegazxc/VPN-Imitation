@@ -40,8 +40,6 @@ public class UsersEntity {
     @Column(name = "auth_provider", nullable = false, length = 20)
     private AuthProvider authProvider = AuthProvider.LOCAL;
 
-    /*
-    TO DO : ADD PROVIDER_ID COLUMN
-     */
-
+    @Column(name = "provider_id", nullable = true, columnDefinition = "TEXT")
+    private String providerId;
 }
