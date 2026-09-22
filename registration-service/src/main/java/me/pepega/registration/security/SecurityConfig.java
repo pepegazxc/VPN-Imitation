@@ -1,4 +1,4 @@
-package me.pepega.registration.user.security;
+package me.pepega.registration.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

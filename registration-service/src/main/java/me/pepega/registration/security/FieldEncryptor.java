@@ -1,4 +1,4 @@
-package me.pepega.registration.user.service.infrastructure;
+package me.pepega.registration.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class FieldEncryptorService {
+public class FieldEncryptor {
     //TO DO: Create exception handler for handling an exception
 
     private final StringEncryptor encryptor;
