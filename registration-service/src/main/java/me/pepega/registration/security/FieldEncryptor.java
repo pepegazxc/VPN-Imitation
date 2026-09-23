@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class FieldEncryptor {
-    //TO DO: Create exception handler for handling an exception
 
     private final StringEncryptor encryptor;
 

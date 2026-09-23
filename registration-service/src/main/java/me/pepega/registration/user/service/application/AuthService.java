@@ -26,7 +26,7 @@ public class AuthService {
         /*
         TO DO:
         1. Create JWT token class for generating JWT tokens
-        2. Create Controller Advice class for handling an exception
+        2. Add logs
          */
 
         UsersEntity user = UsersEntity.builder()
