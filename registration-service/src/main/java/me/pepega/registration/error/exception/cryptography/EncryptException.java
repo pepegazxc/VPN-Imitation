@@ -8,7 +8,7 @@ public class EncryptException extends AppException {
         super(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "An error occurred while encrypting",
-                "ENCRYPT_SERVER_EXCEPTION"
+                "ENCRYPT_EXCEPTION"
         );
     }
 }
