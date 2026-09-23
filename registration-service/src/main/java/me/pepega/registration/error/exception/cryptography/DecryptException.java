@@ -4,11 +4,12 @@ import me.pepega.registration.error.exception.AppException;
 import org.springframework.http.HttpStatus;
 
 public class DecryptException extends AppException {
-    public DecryptException() {
+    public DecryptException(Throwable cause) {
         super(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "An error occurred while decrypting",
-                "DECRYPT_EXCEPTION"
+                "DECRYPT_EXCEPTION",
+                cause
         );
     }
 }

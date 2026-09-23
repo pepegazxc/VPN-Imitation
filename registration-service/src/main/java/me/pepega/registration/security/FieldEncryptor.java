@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class FieldEncryptor {
 
     private final StringEncryptor encryptor;
@@ -19,9 +18,8 @@ public class FieldEncryptor {
         if (value == null) return null;
         try{
             return encryptor.encrypt(value);
-        }catch (EncryptionOperationNotPossibleException ex){
-            log.error("Encryption failed", ex);
-            throw new EncryptException();
+        }catch (Exception ex){
+            throw new EncryptException(ex);
         }
 
     }
@@ -30,9 +28,8 @@ public class FieldEncryptor {
         if (value == null) return null;
         try{
             return encryptor.decrypt(value);
-        }catch (EncryptionOperationNotPossibleException ex){
-            log.error("Encryption failed", ex);
-            throw new DecryptException();
+        }catch (Exception ex){
+            throw new DecryptException(ex);
         }
     }
 }

@@ -7,6 +7,7 @@ import me.pepega.registration.user.entity.AuthProvider;
 import me.pepega.registration.user.entity.UsersEntity;
 import me.pepega.registration.user.repository.AuthRepository;
 import me.pepega.registration.security.FieldEncryptor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ public class AuthService {
 
     private final AuthRepository authRepository;
     private final FieldEncryptor encryptor;
+    private final PasswordEncoder encoder;
 
     @Transactional
     public void userRegistration(RegistrationRequest request){
@@ -30,10 +32,10 @@ public class AuthService {
          */
 
         UsersEntity user = UsersEntity.builder()
-                .username("username")
+                .username(request.getUsername())
                 .cipherPhoneNumber(encryptor.encrypt(request.getPhoneNumber()))
                 .cipherEmail(encryptor.encrypt(request.getEmail()))
-                .hashPassword("hashPassword")
+                .hashPassword(encoder.encode(request.getPassword()))
                 .token("jwt Token")
                 .createdAt(Instant.from(LocalDateTime.now()))
                 .authProvider(AuthProvider.LOCAL)

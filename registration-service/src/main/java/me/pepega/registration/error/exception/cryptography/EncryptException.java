@@ -4,11 +4,12 @@ import me.pepega.registration.error.exception.AppException;
 import org.springframework.http.HttpStatus;
 
 public class EncryptException extends AppException {
-    public EncryptException() {
+    public EncryptException(Throwable cause) {
         super(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "An error occurred while encrypting",
-                "ENCRYPT_EXCEPTION"
+                "ENCRYPT_EXCEPTION",
+                cause
         );
     }
 }
