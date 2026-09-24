@@ -1,3 +1,5 @@
+package jwt;
+
 import io.jsonwebtoken.Jwts;
 
 import java.security.PrivateKey;
