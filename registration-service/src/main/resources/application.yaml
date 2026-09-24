@@ -92,3 +92,7 @@ minio:
   bucket: user-sessions
   user: user
   password: 1234
+
+jwt:
+  private-key-base64:${JWT_PRIVATE_KEY}
+  public-key-base64:${JWT_PUBLIC_KEY}

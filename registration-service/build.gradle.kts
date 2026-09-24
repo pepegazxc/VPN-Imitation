@@ -38,6 +38,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:4.0.4")
 
+    // gRPC
     implementation(project(":grpc-interface"))
     implementation("org.springframework.grpc:spring-grpc-spring-boot-starter:0.3.0") {
         exclude(group = "io.grpc", module = "grpc-netty")
@@ -74,6 +75,9 @@ dependencies {
 
     // Validation
     implementation("org.springframework.boot:spring-boot-starter-validation")
+
+    // JWT
+    implementation(project(":jwt-module"))
 
 
 }
