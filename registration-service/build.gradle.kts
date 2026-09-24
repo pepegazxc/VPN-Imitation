@@ -38,15 +38,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:4.0.4")
 
-    // GRPC & Contracts
     implementation(project(":grpc-interface"))
-    implementation("org.springframework.grpc:spring-grpc-spring-boot-starter") {
+    implementation("org.springframework.grpc:spring-grpc-spring-boot-starter:0.3.0") {
         exclude(group = "io.grpc", module = "grpc-netty")
     }
     implementation("io.grpc:grpc-netty-shaded")
 
     // AWS S3 & MinIO
-    implementation("io.minio:minio:8.5.7")
+    implementation("io.minio:minio:8.6.0")
 
     // Mail
     implementation("org.springframework.boot:spring-boot-starter-mail")
