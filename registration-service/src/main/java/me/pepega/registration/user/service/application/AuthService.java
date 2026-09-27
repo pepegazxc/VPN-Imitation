@@ -3,7 +3,7 @@ package me.pepega.registration.user.service.application;
 import jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.pepega.registration.user.dto.RegistrationRequest;
+import me.pepega.registration.user.dto.request.RegistrationRequest;
 import me.pepega.registration.user.entity.AuthProvider;
 import me.pepega.registration.user.entity.UsersEntity;
 import me.pepega.registration.user.repository.AuthRepository;

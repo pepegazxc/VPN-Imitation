@@ -2,7 +2,7 @@ package me.pepega.registration.user.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import me.pepega.registration.user.dto.RegistrationRequest;
+import me.pepega.registration.user.dto.request.RegistrationRequest;
 import me.pepega.registration.user.service.application.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
