@@ -14,13 +14,13 @@ public class RedisTokenService {
 
     private final RedisTokenRepository tokenRepository;
 
-    public RedisTokenResult generateRefreshToken(Long userId, String userSession){
+    public RedisTokenResult generateRefreshToken(Long userId){
         String token = UUID.randomUUID().toString();
         String tokenHash = DigestUtils.sha256Hex(token);
 
-        RedisTokenEntity entity = new RedisTokenEntity(tokenHash, userId, userSession, 30L);
+        RedisTokenEntity entity = new RedisTokenEntity(tokenHash, userId, 30L);
         tokenRepository.save(entity);
 
-        return new RedisTokenResult(token, userId, userSession);
+        return new RedisTokenResult(token, userId);
     }
 }

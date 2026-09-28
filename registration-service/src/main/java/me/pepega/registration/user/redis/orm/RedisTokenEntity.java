@@ -19,7 +19,6 @@ public class RedisTokenEntity {
     private String tokenHash;
 
     private Long userid;
-    private String userSession;
 
     @TimeToLive(unit = TimeUnit.DAYS)
     private Long ttl = 30L;
