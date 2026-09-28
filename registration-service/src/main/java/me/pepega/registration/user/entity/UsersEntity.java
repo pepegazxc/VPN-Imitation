@@ -30,9 +30,6 @@ public class UsersEntity {
     @Column(name = "hash_password", nullable = false, columnDefinition = "TEXT")
     private String hashPassword;
 
-    @Column(nullable = false, unique = true, length = 250)
-    private String token;
-
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 

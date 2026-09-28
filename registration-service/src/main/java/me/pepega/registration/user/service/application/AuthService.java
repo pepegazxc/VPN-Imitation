@@ -39,11 +39,6 @@ public class AuthService {
                 .cipherPhoneNumber(encryptor.encrypt(request.getPhoneNumber()))
                 .cipherEmail(encryptor.encrypt(request.getEmail()))
                 .hashPassword(encoder.encode(request.getPassword()))
-                .token(jwtProvider.generateToken(
-                        "id",
-                        "role",
-                        Duration.ofMinutes(15)
-                ))
                 .createdAt(Instant.from(LocalDateTime.now()))
                 .authProvider(AuthProvider.LOCAL)
                 .build();
