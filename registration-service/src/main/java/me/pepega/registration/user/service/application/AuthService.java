@@ -94,7 +94,7 @@ public class AuthService {
         try{
             Phonenumber.PhoneNumber parsed = PHONE_UTIL.parse(phoneNUmber, null);
             if (!PHONE_UTIL.isValidNumber(parsed)){
-                throw new InvalidPhoneNumberFormat();
+                throw new InvalidPhoneNumber();
             }
             return PHONE_UTIL.format(parsed, PhoneNumberUtil.PhoneNumberFormat.E164);
         }catch (NumberParseException e){

@@ -1,7 +1,9 @@
 package me.pepega.registration;
 
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import jwt.JwtProvider;
+import me.pepega.registration.error.exception.user.InvalidPhoneNumber;
+import me.pepega.registration.error.exception.user.PhoneNumberException;
+import me.pepega.registration.error.exception.user.UsernameAlreadyExist;
 import me.pepega.registration.security.FieldEncryptor;
 import me.pepega.registration.user.dto.request.RegistrationRequest;
 import me.pepega.registration.user.entity.UsersEntity;
@@ -9,7 +11,7 @@ import me.pepega.registration.user.redis.orm.RedisTokenResult;
 import me.pepega.registration.user.redis.orm.RedisTokenService;
 import me.pepega.registration.user.repository.AuthRepository;
 import me.pepega.registration.user.service.application.AuthService;
-import org.apache.catalina.User;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -38,6 +40,7 @@ public class AuthServiceTest {
     AuthService authService;
 
     @Test
+    @DisplayName("registration: successful registration with creating two tokens")
     public void shouldRegisterUserSuccessfully() {
         RegistrationRequest request = new RegistrationRequest();
         request.setEmail("test");
@@ -60,5 +63,57 @@ public class AuthServiceTest {
         assertEquals("jwt", response.jwtAccessToken());
         assertEquals("raw", response.jwtRefreshToken());
         verify(redisTokenService).generateRefreshToken(1L);
+    }
+
+    @Test
+    @DisplayName("registration: registration method should return PhoneNumberException")
+    public void shouldReturnPhoneNumberException(){
+        RegistrationRequest request = new RegistrationRequest();
+        request.setEmail("test");
+        request.setPassword("test");
+        request.setUsername("test");
+        request.setPhoneNumber("InvalidFormat");
+
+        when(encryptor.encrypt(anyString())).thenReturn("cipher");
+
+        assertThrows(PhoneNumberException.class,
+                () -> authService.userRegistration(request));
+
+        verify(authRepository, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("registration: registration method should return InvalidPhoneNumberFormat")
+    public void shouldReturnInvalidPhoneNumberFormat(){
+        RegistrationRequest request = new RegistrationRequest();
+        request.setEmail("test");
+        request.setPassword("test");
+        request.setUsername("test");
+        request.setPhoneNumber("+77812397"); //random numbers with
+
+        when(encryptor.encrypt(anyString())).thenReturn("cipher");
+
+        assertThrows(InvalidPhoneNumber.class,
+                () -> authService.userRegistration(request));
+
+        verify(authRepository, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("registration: registration method should return UsernameAlreadyExist")
+    public void shouldReturnUsernameAlreadyExist(){
+        RegistrationRequest request = new RegistrationRequest();
+        request.setEmail("test");
+        request.setPassword("test");
+        request.setUsername("test");
+        request.setPhoneNumber("+79999999999");
+
+        when(encryptor.encrypt(anyString())).thenReturn("cipher");
+        when(authRepository.existsByUsername(anyString())).thenReturn(true);
+
+        assertThrows(UsernameAlreadyExist.class,
+                () -> authService.userRegistration(request));
+
+        verify(authRepository, never()).save(any());
     }
 }
