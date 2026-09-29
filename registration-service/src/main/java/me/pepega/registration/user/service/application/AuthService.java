@@ -37,8 +37,7 @@ public class AuthService {
             /*
         TO DO:
         1. Add logs
-        2. Add unit tests
-        3. Add mail sender
+        2. Add mail sender
          */
 
 
@@ -64,9 +63,9 @@ public class AuthService {
 
     private void assertUnique(String username, String cipherEmail, String cipherPhoneNumber){
         // Create custom exceptions and add them to the handler
-        if(authRepository.existsByUsername(username)) throw new RuntimeException();
-        if(authRepository.existsByCipherEmail(cipherEmail)) throw new RuntimeException();
-        if(authRepository.existsByCipherPhoneNumber(cipherPhoneNumber)) throw new RuntimeException();
+        if(authRepository.existsByUsername(username)) throw new RuntimeException("username");
+        if(authRepository.existsByCipherEmail(cipherEmail)) throw new RuntimeException("email");
+        if(authRepository.existsByCipherPhoneNumber(cipherPhoneNumber)) throw new RuntimeException("phone number");
     }
 
     private SuccessfulRegistrationResponse issuedToken(Long userId){
@@ -95,11 +94,11 @@ public class AuthService {
         try{
             Phonenumber.PhoneNumber parsed = PHONE_UTIL.parse(phoneNUmber, null);
             if (!PHONE_UTIL.isValidNumber(parsed)){
-                throw new RuntimeException();
+                throw new RuntimeException("Phone number exception");
             }
             return PHONE_UTIL.format(parsed, PhoneNumberUtil.PhoneNumberFormat.E164);
         }catch (NumberParseException e){
-            throw new RuntimeException();
+            throw new RuntimeException("Phone number exception 2", e);
         }
     }
 }

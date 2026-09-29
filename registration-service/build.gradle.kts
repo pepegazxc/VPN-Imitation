@@ -3,6 +3,8 @@ plugins {
     id("org.springframework.boot") version "4.1.0"
     id("io.spring.dependency-management") version "1.1.7"
 }
+val mockitoAgent = configurations.create("mockitoAgent")
+
 
 group = "me.pepega"
 version = "0.0.1-SNAPSHOT"
@@ -55,6 +57,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.awaitility:awaitility:4.2.1")
+    testImplementation("org.mockito:mockito-core")
+    mockitoAgent("org.mockito:mockito-core") { isTransitive = false }
 
     // Database & Cache Tests
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
@@ -83,6 +87,7 @@ dependencies {
 
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+tasks.withType<Test>().configureEach {
+    jvmArgs("-javaagent:${mockitoAgent.asPath}")
 }
+
