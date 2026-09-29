@@ -37,8 +37,7 @@ public class AuthService {
 
             /*
         TO DO:
-        1. Add logs
-        2. Add mail sender
+        1. Add mail sender
          */
 
 
@@ -58,6 +57,7 @@ public class AuthService {
                 .createdAt(Instant.now())
                 .authProvider(AuthProvider.LOCAL)
                 .build());
+        log.info("User registered, userId={}", user.getId());
 
         return issuedToken(user.getId());
     }

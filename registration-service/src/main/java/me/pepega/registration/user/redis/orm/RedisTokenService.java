@@ -20,6 +20,7 @@ public class RedisTokenService {
 
         RedisTokenEntity entity = new RedisTokenEntity(tokenHash, userId);
         tokenRepository.save(entity);
+        log.info("Created refresh token for user={}", userId);
 
         return new RedisTokenResult(token, userId);
     }
