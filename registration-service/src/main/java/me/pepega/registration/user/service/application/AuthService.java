@@ -6,6 +6,7 @@ import com.google.i18n.phonenumbers.Phonenumber;
 import jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.pepega.registration.error.exception.user.*;
 import me.pepega.registration.user.dto.request.RegistrationRequest;
 import me.pepega.registration.user.dto.response.SuccessfulRegistrationResponse;
 import me.pepega.registration.user.entity.AuthProvider;
@@ -62,10 +63,9 @@ public class AuthService {
     }
 
     private void assertUnique(String username, String cipherEmail, String cipherPhoneNumber){
-        // Create custom exceptions and add them to the handler
-        if(authRepository.existsByUsername(username)) throw new RuntimeException("username");
-        if(authRepository.existsByCipherEmail(cipherEmail)) throw new RuntimeException("email");
-        if(authRepository.existsByCipherPhoneNumber(cipherPhoneNumber)) throw new RuntimeException("phone number");
+        if(authRepository.existsByUsername(username)) throw new UsernameAlreadyExist();
+        if(authRepository.existsByCipherEmail(cipherEmail)) throw new EmailAlreadyExist();
+        if(authRepository.existsByCipherPhoneNumber(cipherPhoneNumber)) throw new PhoneNumberAlreadyExist();
     }
 
     private SuccessfulRegistrationResponse issuedToken(Long userId){
@@ -94,11 +94,11 @@ public class AuthService {
         try{
             Phonenumber.PhoneNumber parsed = PHONE_UTIL.parse(phoneNUmber, null);
             if (!PHONE_UTIL.isValidNumber(parsed)){
-                throw new RuntimeException("Phone number exception");
+                throw new InvalidPhoneNumberFormat();
             }
             return PHONE_UTIL.format(parsed, PhoneNumberUtil.PhoneNumberFormat.E164);
         }catch (NumberParseException e){
-            throw new RuntimeException("Phone number exception 2", e);
+            throw new PhoneNumberException(e);
         }
     }
 }
