@@ -75,6 +75,7 @@ dependencies {
 
     // Validation
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("com.googlecode.libphonenumber:libphonenumber:8.13.53")
 
     // JWT
     implementation(project(":jwt-module"))

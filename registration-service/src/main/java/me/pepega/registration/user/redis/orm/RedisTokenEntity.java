@@ -16,6 +16,6 @@ public class RedisTokenEntity {
     @Id
     private String tokenHash;
 
-    private Long userid;
+    private Long userId;
 
 }

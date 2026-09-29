@@ -1,6 +1,6 @@
 package me.pepega.registration.user.dto.response;
 
-public record SuccessRegistrationResponse(
+public record SuccessfulRegistrationResponse(
         String message,
         String jwtRefreshToken,
         String jwtAccessToken
