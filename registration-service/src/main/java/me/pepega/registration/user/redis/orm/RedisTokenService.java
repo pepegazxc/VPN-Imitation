@@ -18,7 +18,7 @@ public class RedisTokenService {
         String token = UUID.randomUUID().toString();
         String tokenHash = DigestUtils.sha256Hex(token);
 
-        RedisTokenEntity entity = new RedisTokenEntity(tokenHash, userId, 30L);
+        RedisTokenEntity entity = new RedisTokenEntity(tokenHash, userId);
         tokenRepository.save(entity);
 
         return new RedisTokenResult(token, userId);
